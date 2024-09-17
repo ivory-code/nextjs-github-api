@@ -3,7 +3,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.sortMembers": "explicit",
-    "source.organizeImports": "explicit"
+    "source.organizeImports": false
   },
   "typescript.tsdk": "./node_modules/typescript/lib",
   "files.exclude": {

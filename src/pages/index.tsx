@@ -1,5 +1,8 @@
-// pages/index.tsx
 import {useEffect, useState, type FormEvent} from 'react'
+import {remark} from 'remark'
+import html from 'remark-html'
+
+import IssueList from './components/IssueList'
 
 interface ApiResponse {
   message: string
@@ -21,6 +24,12 @@ export default function Home() {
   const [responseMessage, setResponseMessage] = useState<string>('')
   const [issues, setIssues] = useState<Issue[]>([])
   const [loading, setLoading] = useState(true)
+
+  const markdownToHtml = async (markdown: string) => {
+    const processedContent = await remark().use(html).process(markdown)
+
+    return processedContent.toString()
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -55,8 +64,17 @@ export default function Home() {
         if (!response.ok) {
           throw new Error('Failed to fetch issues')
         }
+
         const data = await response.json()
-        setIssues(data)
+
+        const processedIssues = await Promise.all(
+          data.map(async (issue: Issue) => ({
+            ...issue,
+            body: await markdownToHtml(issue.body),
+          })),
+        )
+
+        setIssues(processedIssues)
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)
@@ -95,17 +113,9 @@ export default function Home() {
           />
         </div>
         <button type="submit">Create Issue</button>
-        <div>
-          <h1>GitHub Issues</h1>
-          <ul>
-            {issues.map(issue => (
-              <li key={issue.id}>
-                <h3>{issue.title}</h3>
-                <p>{issue.body}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {issues.map(issue => (
+          <IssueList key={issue.id} data={issue} />
+        ))}
       </form>
 
       {responseMessage && <p>{responseMessage}</p>}

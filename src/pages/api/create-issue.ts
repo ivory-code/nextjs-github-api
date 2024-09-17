@@ -1,5 +1,3 @@
-// pages/api/create-issue.js
-
 import {type NextApiRequest, type NextApiResponse} from 'next'
 
 export default async function handler(

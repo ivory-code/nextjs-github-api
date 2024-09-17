@@ -1,6 +1,8 @@
 import {useRouter} from 'next/router'
 import {type FormEvent, useState} from 'react'
 
+import PostPreview from '@/pages/components/PostPreview'
+
 interface ApiResponse {
   message: string
   issue?: {
@@ -66,6 +68,7 @@ export default function PostPage() {
             required
           />
         </div>
+        <PostPreview markdownBody={body} />
         <button type="submit">Create Issue</button>
       </form>
       {responseMessage && <p>{responseMessage}</p>}

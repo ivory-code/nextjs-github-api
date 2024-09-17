@@ -1,5 +1,5 @@
 // pages/index.tsx
-import {useState, type FormEvent} from 'react'
+import {useEffect, useState, type FormEvent} from 'react'
 
 interface ApiResponse {
   message: string
@@ -9,10 +9,18 @@ interface ApiResponse {
   error?: string
 }
 
+interface Issue {
+  id: number
+  title: string
+  body: string
+}
+
 export default function Home() {
   const [title, setTitle] = useState<string>('')
   const [body, setBody] = useState<string>('')
   const [responseMessage, setResponseMessage] = useState<string>('')
+  const [issues, setIssues] = useState<Issue[]>([])
+  const [loading, setLoading] = useState(true)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -40,6 +48,30 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    const fetchIssues = async () => {
+      try {
+        const response = await fetch('/api/get-issues')
+        if (!response.ok) {
+          throw new Error('Failed to fetch issues')
+        }
+        const data = await response.json()
+        setIssues(data)
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchIssues()
+  }, [])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div>
       <h1>Create a GitHub Issue</h1>
@@ -63,6 +95,17 @@ export default function Home() {
           />
         </div>
         <button type="submit">Create Issue</button>
+        <div>
+          <h1>GitHub Issues</h1>
+          <ul>
+            {issues.map(issue => (
+              <li key={issue.id}>
+                <h3>{issue.title}</h3>
+                <p>{issue.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </form>
 
       {responseMessage && <p>{responseMessage}</p>}

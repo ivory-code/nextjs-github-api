@@ -42,6 +42,7 @@ export default async function handler(
 
       const issue = await response.json()
       res.status(200).json({message: 'Issue created successfully', issue})
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       res.status(500).json({error: error.message})
     }

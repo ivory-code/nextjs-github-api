@@ -57,6 +57,7 @@ export default function Home() {
   return (
     <div>
       <Link href="/PostPage">Create Post</Link>
+      <Link href="/KanbanBoardPage">Go To KanbanBoard</Link>
       {issues.map(issue => (
         <div key={issue.id}>
           <h2>{issue.title}</h2>

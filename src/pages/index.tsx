@@ -1,24 +1,24 @@
 import Link from 'next/link'
-import {type MDXRemoteSerializeResult} from 'next-mdx-remote'
-import {serialize} from 'next-mdx-remote/serialize'
 import {useEffect, useState} from 'react'
+import {remark} from 'remark'
+import html from 'remark-html'
 
-import IssueList from '@/pages/components/IssueList'
+import IssueList from './components/IssueList'
 
 interface Issue {
   id: number
   title: string
-  body: MDXRemoteSerializeResult
+  body: string
 }
 
 export default function Home() {
   const [issues, setIssues] = useState<Issue[]>([])
   const [loading, setLoading] = useState(true)
 
-  const markdownToMdx = async (
-    markdown: MDXRemoteSerializeResult,
-  ): Promise<MDXRemoteSerializeResult> => {
-    return serialize(markdown)
+  const markdownToHtml = async (markdown: string) => {
+    const processedContent = await remark().use(html).process(markdown)
+
+    return processedContent.toString()
   }
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function Home() {
         const processedIssues = await Promise.all(
           data.map(async (issue: Issue) => ({
             ...issue,
-            body: await markdownToMdx(issue.body),
+            body: await markdownToHtml(issue.body),
           })),
         )
 
@@ -57,12 +57,8 @@ export default function Home() {
   return (
     <div>
       <Link href="/PostPage">Create Post</Link>
-      <Link href="/KanbanBoardPage">Go To KanbanBoard</Link>
       {issues.map(issue => (
-        <div key={issue.id}>
-          <h2>{issue.title}</h2>
-          <IssueList data={issue} />
-        </div>
+        <IssueList key={issue.id} data={issue} />
       ))}
     </div>
   )

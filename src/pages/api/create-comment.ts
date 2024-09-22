@@ -1,23 +1,21 @@
 import {createBrowserClient} from '@/supabase/client'
 
-export async function createPost({
-  id,
-  title,
+export async function createComment({
+  userId,
+  postId,
   content,
 }: {
-  id: string
-  title: string
+  userId: string
+  postId: string
   content: string
 }) {
   const supabase = createBrowserClient()
 
   try {
-    const {data, error} = await supabase.from('posts').insert({
-      author_id: id,
-      title,
+    const {data, error} = await supabase.from('comments').insert({
+      user_id: userId,
+      post_id: postId,
       content,
-      created_at: new Date().toISOString(),
-      published: true,
     })
 
     if (error) {

@@ -4,15 +4,17 @@ import {useEffect, useState} from 'react'
 
 import {createPost} from '@/pages/api/create-post'
 import {getUser} from '@/pages/api/get-user'
+import PostView from '@/pages/Blog/PostView'
 import LoginForm from '@/pages/components/LoginForm'
-import {createClient} from '@/supabase/client'
+import {createBrowserClient} from '@/supabase/client'
 import {type Database} from '@/supabase/database.types'
 
 export default function BlogPage() {
-  const supabase = createClient()
+  const supabase = createBrowserClient()
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+
   const [user, setUser] = useState<
     Database['public']['Tables']['users']['Row'] | null
   >(null)
@@ -40,6 +42,8 @@ export default function BlogPage() {
       <input name="title" onChange={e => setTitle(e.target.value)} />
       <input name="content" onChange={e => setContent(e.target.value)} />
       <button onClick={handlePost}>Post</button>
+      <br />
+      <PostView userId={user?.id || ''} />
       <br />
       {user ? <button onClick={handleLogout}>Logout</button> : <LoginForm />}
     </div>

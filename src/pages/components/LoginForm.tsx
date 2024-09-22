@@ -1,9 +1,9 @@
 'use client'
 
-import {createClient} from '@/supabase/client'
+import {createBrowserClient} from '@/supabase/client'
 
 export default function LoginForm() {
-  const supabase = createClient()
+  const supabase = createBrowserClient()
 
   const handleLogin = () => {
     supabase.auth.signInWithOAuth({

@@ -1,7 +1,7 @@
-import {createClient} from '@/supabase/client'
+import {createBrowserClient} from '@/supabase/client'
 
 export async function getUser() {
-  const user = await createClient().from('users').select('*')
+  const user = await createBrowserClient().from('users').select('*')
 
   return user.data
 }

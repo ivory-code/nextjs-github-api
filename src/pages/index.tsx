@@ -3,6 +3,9 @@ import {useEffect, useState} from 'react'
 import {remark} from 'remark'
 import html from 'remark-html'
 
+import LoginForm from '@/pages/components/LoginForm'
+import SessionProvider from '@/pages/components/SessionProvider'
+
 import IssueList from './components/IssueList'
 
 interface Issue {
@@ -55,11 +58,18 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <Link href="/PostPage">Create Post</Link>
-      {issues.map(issue => (
-        <IssueList key={issue.id} data={issue} />
-      ))}
-    </div>
+    <>
+      <div>
+        <LoginForm />
+        <br />
+        <Link href="/Blog">Blog Page</Link>
+        <br />
+        <Link href="/PostPage">Create Post</Link>
+        {issues.map(issue => (
+          <IssueList key={issue.id} data={issue} />
+        ))}
+      </div>
+      <SessionProvider />
+    </>
   )
 }

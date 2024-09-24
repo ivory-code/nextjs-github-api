@@ -16,7 +16,6 @@ interface Issue {
 
 export default function Home() {
   const [issues, setIssues] = useState<Issue[]>([])
-  const [loading, setLoading] = useState(true)
 
   const markdownToHtml = async (markdown: string) => {
     const processedContent = await remark().use(html).process(markdown)
@@ -45,17 +44,11 @@ export default function Home() {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error)
-      } finally {
-        setLoading(false)
       }
     }
 
     fetchIssues()
   }, [])
-
-  if (loading) {
-    return <div>Loading...</div>
-  }
 
   return (
     <>

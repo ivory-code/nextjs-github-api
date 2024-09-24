@@ -33,6 +33,7 @@
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "prettier.configPath": ".prettierrc.js",
   "cSpell.words": [
+    "apikey",
     "clsx",
     "ellipsize",
     "gacha",
@@ -46,6 +47,7 @@
     "sonner",
     "supabase",
     "tailwindcss",
+    "tanstack",
     "unequip",
     "uuidv",
     "zustand"

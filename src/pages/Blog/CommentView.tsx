@@ -23,13 +23,13 @@ export default function CommentView({postId}: Props) {
   return (
     <div>
       <p>Comments</p>
-      <p>
+      <div>
         {commentsData
           ? commentsData.map(data => (
               <p key={data.id}>{`comment: ${data.content}`}</p>
             ))
           : null}
-      </p>
+      </div>
     </div>
   )
 }

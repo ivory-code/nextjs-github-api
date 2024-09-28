@@ -1,6 +1,7 @@
 'use client'
 
 import {useQuery} from '@tanstack/react-query'
+import Link from 'next/link'
 import {useEffect, useState} from 'react'
 
 import {axiosGetPost} from '@/pages/api/axios-get-post'
@@ -61,6 +62,8 @@ export default function BlogPage() {
         <button onClick={handlePost}>Post</button>
         <br />
         <PostView userId={user?.id || ''} />
+        <br />
+        <Link href="/Main">Go to Main</Link>
         <br />
         {user ? <button onClick={handleLogout}>Logout</button> : <LoginForm />}
       </div>

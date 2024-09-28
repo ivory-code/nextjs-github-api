@@ -1,3 +1,4 @@
+import Header from '@/pages/components/Header'
 import {LessonOverview} from '@/pages/components/LessonOverview'
 import {NavBar} from '@/pages/components/Navbar'
 
@@ -13,6 +14,7 @@ const navItems = [
 export default function Main() {
   return (
     <div className="container mx-auto p-6">
+      <Header />
       <div className="stroke-box bg-pastelPink p-6 rounded-lg">
         <h1 className="text-3xl font-bold mb-6">Lesson Overview</h1>
         <LessonOverview />
